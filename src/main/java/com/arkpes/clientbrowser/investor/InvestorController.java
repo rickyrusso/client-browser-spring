@@ -1,7 +1,9 @@
 package com.arkpes.clientbrowser.investor;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -17,7 +19,11 @@ public class InvestorController {
 
     @GetMapping("/search")
     public List<Investor> getInvestorsByClient(@RequestParam("clientId") long clientId){
-        return investorService.getInvestorsByClient(clientId);
+        try{
+            return investorService.getInvestorsByClient(clientId);
+        } catch(Exception ex){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
+        }
     }
 
 }

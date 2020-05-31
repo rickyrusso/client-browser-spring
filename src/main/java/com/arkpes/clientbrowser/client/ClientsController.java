@@ -37,7 +37,11 @@ public class ClientsController {
 
     @PostMapping
     public void postClient(@RequestBody Client client){
+        try {
         clientService.saveClient(client);
+        } catch(Exception ex){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
+        }
     }
 
 }
