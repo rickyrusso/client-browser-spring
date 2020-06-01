@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface ClientRepository {
-    Client getClient(long id) throws SQLException;
-    List<Client> getClients() throws SQLException;
+    List<ClientInvestments> getClients();
     void saveClient(Client client);
 }

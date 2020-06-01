@@ -26,30 +26,15 @@ public class ClientRepositoryImpl implements ClientRepository {
     }
 
     @Override
-    public Client getClient(long id) throws SQLException {
-        String sql = "select * from client where id =:id";
-        List<Client> clients = jdbcTemplate.query(sql,
-                new MapSqlParameterSource("id", id), (resultSet, i) -> {
-                    return toClient(resultSet, true);
-                });
-
-        if(clients.size() == 1){
-            return clients.get(0);
-        }
-
-        return null;
-    }
-
-    @Override
-    public List<Client> getClients() throws SQLException{
+    public List<ClientInvestments> getClients(){
         String sql =
             "select c.id, c.name, c.description, count(CI.client_id) as mum_of_investments\n" +
             "from client C\n" +
             "join client_investors CI on c.id = CI.client_id\n" +
             "group by c.name, c.description";
 
-        List<Client> clients = jdbcTemplate.query(sql, (resultSet, i) -> {
-            return toClient(resultSet, false);
+        List<ClientInvestments> clients = jdbcTemplate.query(sql, (resultSet, i) -> {
+            return toClientInvestment(resultSet);
         });
 
         return clients;
@@ -67,15 +52,12 @@ public class ClientRepositoryImpl implements ClientRepository {
     }
 
 
-    private Client toClient(ResultSet resultSet, boolean skipNumInvestments) throws SQLException{
-        Client client = new Client();
+    private ClientInvestments toClientInvestment(ResultSet resultSet) throws SQLException{
+        ClientInvestments client = new ClientInvestments();
         client.setId(resultSet.getLong("id"));
         client.setName(resultSet.getString("name"));
         client.setDescription(resultSet.getString("description"));
-
-        if( !skipNumInvestments )
-            client.setNumOfInvestments(resultSet.getInt("mum_of_investments"));
-
+        client.setNumOfInvestments(resultSet.getInt("mum_of_investments"));
         return client;
     }
 }

@@ -4,7 +4,6 @@ public class Client {
     private long id;
     private String name;
     private String description;
-    private int numOfInvestments;
 
     public long getId() {
         return id;
@@ -30,11 +29,4 @@ public class Client {
         this.description = description;
     }
 
-    public int getNumOfInvestments() {
-        return numOfInvestments;
-    }
-
-    public void setNumOfInvestments(int numOfInvestments) {
-        this.numOfInvestments = numOfInvestments;
-    }
 }

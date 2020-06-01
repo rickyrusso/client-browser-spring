@@ -17,31 +17,14 @@ public class ClientsController {
         this.clientService = clientService;
     }
 
-    @GetMapping("/{id}")
-    public Client getClient(@PathVariable long id){
-        try {
-            return clientService.getClient(id);
-        } catch(Exception ex){
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
-        }
-    }
-
     @GetMapping
-    public List<Client>  getClients(){
-        try {
-            return clientService.getClients();
-        } catch(Exception ex){
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
-        }
+    public List<ClientInvestments>  getClients(){
+        return clientService.getClients();
     }
 
     @PostMapping
     public void postClient(@RequestBody Client client){
-        try {
         clientService.saveClient(client);
-        } catch(Exception ex){
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), ex);
-        }
     }
 
 }

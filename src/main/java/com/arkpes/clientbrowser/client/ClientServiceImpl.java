@@ -17,17 +17,21 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client getClient(long id) throws SQLException {
-        return clientRepository.getClient(id);
-    }
-
-    @Override
-    public List<Client> getClients() throws SQLException {
+    public List<ClientInvestments> getClients() {
         return clientRepository.getClients();
     }
 
     @Override
     public void saveClient(Client client) {
+        if(client.getId() <= 0)
+            throw new InvalidClientDataException("ID is invalid");
+
+        if(client.getName() == null || client.getName() == "")
+            throw new InvalidClientDataException("Name is required");
+
+        if(client.getDescription() == null || client.getDescription() == "")
+            throw new InvalidClientDataException("Description is required");
+
         clientRepository.saveClient(client);
     }
 
